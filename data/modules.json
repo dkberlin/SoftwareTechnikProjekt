@@ -1,0 +1,19 @@
+{
+  "Title": "Softwaretechnik",
+  "ID": 1,
+  "IsFinished": false,
+  "Grade": 0,
+  "FurtherInfo": "Lorem Ipsum",
+  "IsVisible": false,
+  "IsCompulsory": false,
+  "DependandModules": [
+    {
+      "title": "Programmieren 1",
+      "id": "3"
+    },
+    {
+      "title": "Programmieren 2",
+      "id": "4"
+    }
+  ]
+}
