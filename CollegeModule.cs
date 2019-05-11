@@ -10,5 +10,6 @@
         public bool IsCompulsory { get; set; }
         public string FurtherInfo { get; set; }
         public CollegeModule[] DependandModules { get; set; }
+        public string ExamType { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
@@ -15,9 +16,7 @@ namespace SoftwareTechnikProjekt
                 using (StreamReader reader = new StreamReader(stream))
             {
                 string result = reader.ReadToEnd();
-                CollegeModule module = JsonConvert.DeserializeObject<CollegeModule>(result);
-
-                System.Console.WriteLine("Title is : " + module.Title);
+                var modules = JsonConvert.DeserializeObject<List<CollegeModule>>(result);
             }
         }
     }
