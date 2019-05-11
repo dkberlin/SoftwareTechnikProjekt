@@ -18,6 +18,8 @@
         <Label x:Name="openModulesLabel" Content="OFFENE MODULE" HorizontalAlignment="Center" Height="30" Margin="0,59,0,0" VerticalAlignment="Top" Width="148" HorizontalContentAlignment="Center" FontWeight="Bold"/>
         <Label x:Name="openModulesLabel_Copy" Content="GEPLANTE MODULE" HorizontalAlignment="Center" Height="30" Margin="0,59,0,0" VerticalAlignment="Top" Width="148" HorizontalContentAlignment="Center" Grid.Column="1" FontWeight="Bold"/>
         <Label x:Name="openModulesLabel_Copy1" Content="ABGESCHLOSSENE MODULE" HorizontalAlignment="Center" Height="30" Margin="0,59,0,0" VerticalAlignment="Top" Width="190" HorizontalContentAlignment="Center" Grid.Column="2" FontWeight="Bold"/>
+        <Button x:Name="addToPlannedButton" Content="&gt;&gt;" HorizontalAlignment="Left" Margin="328,139,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2" Click="AddToPlannedButton_Click"/>
+        <Button x:Name="removeFromPlannedButton" Content="&lt;&lt;" HorizontalAlignment="Left" Margin="328,178,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2" Click="RemoveFromPlanned_Click"/>
 
     </Grid>
 </Window>
