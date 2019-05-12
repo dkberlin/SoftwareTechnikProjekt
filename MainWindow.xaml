@@ -7,6 +7,12 @@
         mc:Ignorable="d"
         Title="Beuth MIO Studiendoku" Height="600" Width="1100" MinWidth="1100" MinHeight="600" MaxWidth="1100" MaxHeight="600" ResizeMode="NoResize">
     <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFEEFDFF" Offset="0.349"/>
+                <GradientStop Color="#FF283244" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="333*"/>
             <ColumnDefinition Width="333*"/>
@@ -18,8 +24,27 @@
         <Label x:Name="openModulesLabel" Content="OFFENE MODULE" HorizontalAlignment="Center" Height="30" Margin="0,59,0,0" VerticalAlignment="Top" Width="148" HorizontalContentAlignment="Center" FontWeight="Bold"/>
         <Label x:Name="openModulesLabel_Copy" Content="GEPLANTE MODULE" HorizontalAlignment="Center" Height="30" Margin="0,59,0,0" VerticalAlignment="Top" Width="148" HorizontalContentAlignment="Center" Grid.Column="1" FontWeight="Bold"/>
         <Label x:Name="openModulesLabel_Copy1" Content="ABGESCHLOSSENE MODULE" HorizontalAlignment="Center" Height="30" Margin="0,59,0,0" VerticalAlignment="Top" Width="190" HorizontalContentAlignment="Center" Grid.Column="2" FontWeight="Bold"/>
-        <Button x:Name="addToPlannedButton" Content="&gt;&gt;" HorizontalAlignment="Left" Margin="328,139,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2" Click="AddToPlannedButton_Click"/>
-        <Button x:Name="removeFromPlannedButton" Content="&lt;&lt;" HorizontalAlignment="Left" Margin="328,178,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2" Click="RemoveFromPlanned_Click"/>
+        <Button x:Name="addToPlannedButton" Content="&gt;&gt;" HorizontalAlignment="Left" Margin="328,139,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2" Click="AddToPlannedButton_Click">
+            <Button.Effect>
+                <DropShadowEffect/>
+            </Button.Effect>
+        </Button>
+        <Button x:Name="removeFromPlannedButton" Content="&lt;&lt;" HorizontalAlignment="Left" Margin="328,178,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2" Click="RemoveFromPlanned_Click">
+            <Button.Effect>
+                <DropShadowEffect/>
+            </Button.Effect>
+        </Button>
+        <Button x:Name="addToFinishedButton" Content="&gt;&gt;" HorizontalAlignment="Left" Margin="327,139,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2" Click="AddToFinishedButton_Click" Grid.Column="1">
+            <Button.Effect>
+                <DropShadowEffect/>
+            </Button.Effect>
+        </Button>
+        <Button x:Name="removeFromFinishedButton" Content="&lt;&lt;" HorizontalAlignment="Left" Margin="327,178,0,0" VerticalAlignment="Top" Width="75" Grid.ColumnSpan="2" Click="RemoveFromFinished_Click" Grid.Column="1">
+            <Button.Effect>
+                <DropShadowEffect/>
+            </Button.Effect>
+        </Button>
+        <Label x:Name="AlertLabel" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="10,256,0,0" VerticalAlignment="Top" Width="344" Background="#FFFF8383" Visibility="Hidden"/>
 
     </Grid>
 </Window>

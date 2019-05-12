@@ -7,7 +7,8 @@
       "FurtherInfo": "Grundlegende Konzepte der Computerarchitektur, sofern sie zum Verständnis von Aufbau und Arbeitsweise von Betriebssystemen notwendig sind, sowie ausführliche Inhalte zu Aufbau und Arbeitsweise von Betriebssystemen.",
       "IsVisible": false,
       "IsCompulsory": true,
-      "ExamType": "Klausur"
+      "ExamType": "Klausur",
+	  "DependandModules" : null
     },
     {
       "Title": "Einführung in die Informatik",
@@ -17,7 +18,9 @@
       "FurtherInfo": "Das Studienmodul beginnt mit einer Einführung in den Begriff der Informatik und, damit verbunden, von digitalen Rechenanlagen. Es folgt ein Kapitel über Modellierung. Hier werden mit Graphen, Entity - Relationship - Modellen und der Unified Modeling Language Ansätze zur Problemdarstellung und damit auch zu einer Problemlösung gegeben. Mit dem Begriff der Simulation wird ein zentrales Anliegen der Informatik vorgestellt.",
       "IsVisible": false,
       "IsCompulsory": true,
-      "ExamType": "Klausur"
+      "ExamType": "Klausur",
+	  "DependandModules" : null
+
     },
     {
       "Title": "Grundlagen der Programmierung 1",
@@ -27,7 +30,8 @@
       "FurtherInfo": "Im Modul werden grundlegende Konzepte der objektorientierten Programmierung vermittelt und anhand geeigneter Programmieraufgaben geübt. Nach dem erfolgreichen Abschluss sind die Teilnehmenden befähigt, allein und in Zweierteams kleine bis mittlere Programmieraufgaben zu spezifizieren, zuentwerfen, zu implementieren, zu testen und zu dokumentieren.",
       "IsVisible": false,
       "IsCompulsory": true,
-      "ExamType": "Klausur"
+      "ExamType": "Klausur",
+	  "DependandModules" : null
     },
     {
       "Title": "Kommunikation, Führung und Selbstmanagement",
@@ -37,7 +41,8 @@
       "FurtherInfo": "Im Modul wird Verhaltenskompetenz im Zusammenhang mit Reflexionsfähigkeit entwickelt. Persönlichkeitstests und die Vermittlung kommunikativerGrundlagen unterstützen die Selbstreflexion und das bewusste Auftreten in Präsentations-und Kommunikationssituationen.",
       "IsVisible": false,
       "IsCompulsory": true,
-      "ExamType": "Vortrag"
+      "ExamType": "Vortrag",
+	  "DependandModules" : null
     },
     {
       "Title": "Lineare Algebra",
@@ -47,7 +52,8 @@
       "FurtherInfo": "Ziel des Kurses ist es, Grundkenntnisse der höheren Mathematik und hier insbesondere der Algebra zu vermitteln, die im Bereich der Medieninformatik Anwendung finden. Grundlegende Konzepte und Methoden der Logik, der Vektoralgebra und der linearen Algebra werden ausführlich beschrieben und den Lernenden durch zahlreiche Aufgaben sowie interaktive Animationen und Simulationen nahegebracht. Nach Durcharbeiten dieses Moduls sollten die Lernenden die präsentierten Konzepte und Methoden auf eine Weise beherrschen, dass sie Fragestellungen aus den genannten Problemkreisen selbständig lösen können.",
       "IsVisible": false,
       "IsCompulsory": true,
-      "ExamType": "Klausur"
+      "ExamType": "Klausur",
+	  "DependandModules" : null
     },
     {
       "Title": "Mediendesign 1",
@@ -57,6 +63,18 @@
       "FurtherInfo": "Grundlagen von Gestaltung, Design, Wahrnehmung, Typografie und Farbgestaltung.",
       "IsVisible": false,
       "IsCompulsory": true,
-      "ExamType": "Vortrag"
+      "ExamType": "Vortrag",
+	  "DependandModules" : null
+    },
+    {
+      "Title": "Grundlagen der Programmierung 2",
+      "ID": 21,
+      "IsFinished": false,
+      "Grade": 0,
+      "FurtherInfo": "Im Modul werden fortgeschrittene Konzepte der objektorientierten Programmierung, beispielsweise Programmierung komplexer Datenstrukturen, graphischen Oberflächen  vermittelt und anhand geeigneter Programmieraufgaben geübt. Nach dem erfolgreichen Abschluss sind die Studierenden befähigt, allein und in Teams Programmieraufgaben zu spezifizieren, zu entwerfen, zu implementieren, zu testen, zu dokumentieren und umfangreiche Bibliotheken zu  benutzen.",
+      "IsVisible": false,
+      "IsCompulsory": true,
+      "ExamType": "Klausur",
+	  "DependandModules" : [13]
     }
   ]

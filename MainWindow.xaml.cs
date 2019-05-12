@@ -61,15 +61,47 @@ namespace SoftwareTechnikProjekt
         private void AddToPlannedButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedItem = openModules.SelectedItem;
-            //ModuleController.MoveToList(selectedItem, openModules, plannedModules);
             OnModuleMoved?.Invoke(selectedItem, openModules, plannedModules);
         }
 
         private void RemoveFromPlanned_Click(object sender, RoutedEventArgs e)
         {
             var selectedItem = plannedModules.SelectedItem;
-            //ModuleController.Instance.MoveToList(selectedItem, plannedModules, openModules);
             OnModuleMoved?.Invoke(selectedItem, plannedModules, openModules);
+        }
+
+        internal void SetAlertLabelForModule(string moduleTitle, bool shouldShow)
+        {
+            var plannedModulesItemIndex = plannedModules.Items.IndexOf(moduleTitle);
+            var finishedModulesItemIndex = finishedModules.Items.IndexOf(moduleTitle);
+            var openModulesItemIndex = openModules.Items.IndexOf(moduleTitle);
+
+            if (plannedModulesItemIndex >= 0)
+            {
+                AlertLabel.Content = $"! {moduleTitle} \nbaut auf einem nicht beendetem Modul auf.";
+                AlertLabel.Visibility = shouldShow ? Visibility.Visible : Visibility.Hidden;
+            }
+            else if (finishedModulesItemIndex >= 0)
+            {
+                AlertLabel.Visibility = shouldShow ? Visibility.Visible : Visibility.Hidden;
+            }
+            else if (openModulesItemIndex >= 0)
+            {
+                AlertLabel.Content = "";
+                AlertLabel.Visibility = shouldShow ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
+
+        private void AddToFinishedButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = plannedModules.SelectedItem;
+            OnModuleMoved?.Invoke(selectedItem, plannedModules, finishedModules);
+        }
+
+        private void RemoveFromFinished_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = finishedModules.SelectedItem;
+            OnModuleMoved?.Invoke(selectedItem, finishedModules, plannedModules);
         }
     }
 }

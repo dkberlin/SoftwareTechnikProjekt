@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace SoftwareTechnikProjekt
 {
@@ -44,12 +46,6 @@ namespace SoftwareTechnikProjekt
             }
         }
 
-        internal void MoveToList(object selectedItem, ListBox originalBox, ListBox newBox)
-        {
-            newBox.Items.Add(selectedItem);
-            originalBox.Items.Remove(selectedItem);
-        }
-
         internal void SetupEvents()
         {
             MainWindow.AppWindow.OnModuleMoved += OnModuleHasBeenMoved;
@@ -57,8 +53,42 @@ namespace SoftwareTechnikProjekt
 
         private void OnModuleHasBeenMoved(object selectedModule, ListBox FromList, ListBox ToList)
         {
-            ToList.Items.Add(selectedModule);
             FromList.Items.Remove(selectedModule);
+            ToList.Items.Add(selectedModule);
+
+            var moduleTitle = selectedModule.ToString();
+            var moduleData = GetCollegeModuleByTitle(moduleTitle);
+
+            CheckModuleForDependencies(moduleData, selectedModule, ToList);
+        }
+
+        private void CheckModuleForDependencies(CollegeModule moduleData, object selectedModuleElement, ListBox ToList)
+        {
+            if (moduleData.DependandModules == null)
+            {
+                return;
+            }
+
+            if (ToList == MainWindow.AppWindow.plannedModules)
+            {
+                if (!MainWindow.AppWindow.finishedModules.Items.Contains(selectedModuleElement))
+                {
+                    MainWindow.AppWindow.SetAlertLabelForModule(selectedModuleElement.ToString(), true);
+                }
+            }
+            else if (ToList == MainWindow.AppWindow.openModules ||
+                ToList == MainWindow.AppWindow.finishedModules)
+            {
+                MainWindow.AppWindow.SetAlertLabelForModule(selectedModuleElement.ToString(), false);
+            }
+        }
+
+        private CollegeModule GetCollegeModuleByTitle(string moduleTitle)
+        {
+            List<CollegeModule> modules = GetAllModules();
+            CollegeModule currentModule = modules.First(m => m.Title == moduleTitle);
+
+            return currentModule;
         }
     }
 }
