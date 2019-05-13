@@ -25,21 +25,6 @@ namespace SoftwareTechnikProjekt
         public event ModuleMoved OnModuleMoved;
         public delegate void ModuleMoved(object selectedModule, ListBox FromList, ListBox ToList);
 
-        //public static MainWindow Instance
-        //{
-        //    get
-        //    {
-        //        lock (_padLock)
-        //        {
-        //            if (_instance == null)
-        //            {
-        //                _instance = new MainWindow();
-        //            }
-        //            return _instance;
-        //        }
-        //    }
-        //}
-
         public MainWindow()
         {
             AppWindow = this;
@@ -51,6 +36,7 @@ namespace SoftwareTechnikProjekt
         {
             //TODO: check for save
             ModuleController.Instance.SetupEvents();
+            CourseDataHandler.Instance.SetupEvents();
             var modules = ModuleController.Instance.GetAllModules();
             foreach(var module in modules)
             {

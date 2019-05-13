@@ -14,6 +14,9 @@ namespace SoftwareTechnikProjekt
         private static ModuleController _instance;
         private static readonly object _padLock = new object();
 
+        public event ModuleAddedToFinished OnModuleAddedToFinished;
+        public delegate void ModuleAddedToFinished(object selectedModule);
+
         public ModuleController()
         {
         }
@@ -60,6 +63,11 @@ namespace SoftwareTechnikProjekt
             var moduleData = GetCollegeModuleByTitle(moduleTitle);
 
             CheckModuleForDependencies(moduleData, selectedModule, ToList);
+
+            if(ToList == MainWindow.AppWindow.finishedModules)
+            {
+                OnModuleAddedToFinished?.Invoke(selectedModule);
+            }
         }
 
         private void CheckModuleForDependencies(CollegeModule moduleData, object selectedModuleElement, ListBox ToList)
