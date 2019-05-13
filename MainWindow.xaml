@@ -45,6 +45,22 @@
             </Button.Effect>
         </Button>
         <Label x:Name="AlertLabel" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="10,256,0,0" VerticalAlignment="Top" Width="344" Background="#FFFF8383" Visibility="Hidden"/>
+        <ProgressBar x:Name="CompletedProgressBar" HorizontalAlignment="Left" Height="37" VerticalAlignment="Top" Width="344" Grid.Column="1" Margin="10,459,0,0" Value="-1">
+            <ProgressBar.Effect>
+                <DropShadowEffect/>
+            </ProgressBar.Effect>
+        </ProgressBar>
+        <Label x:Name="label" Content="FORTSCHRITT" Grid.Column="1" HorizontalAlignment="Center" Margin="118,420,118,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" FontSize="18"/>
+        <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="1094" Grid.ColumnSpan="3">
+            <Menu.Effect>
+                <DropShadowEffect Opacity="0.505" Direction="270"/>
+            </Menu.Effect>
+            <MenuItem x:Name="MenuButton" Header="Datei">
+                <MenuItem x:Name ="SaveDataButton" Header="Speichern..."/>
+                <MenuItem x:Name="LoadDataButton" Header="Laden..."/>
+                <MenuItem x:Name="QuitAppButton" Header="Verlassen..." Click="QuitAppButton_Click"/>
+            </MenuItem>
+        </Menu>
 
     </Grid>
 </Window>

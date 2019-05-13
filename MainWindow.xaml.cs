@@ -103,5 +103,10 @@ namespace SoftwareTechnikProjekt
             var selectedItem = finishedModules.SelectedItem;
             OnModuleMoved?.Invoke(selectedItem, finishedModules, plannedModules);
         }
+
+        private void QuitAppButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }
