@@ -61,6 +61,7 @@
                 <MenuItem x:Name="QuitAppButton" Header="Verlassen..." Click="QuitAppButton_Click"/>
             </MenuItem>
         </Menu>
+        <ListBox x:Name="finishedModulesGrades" HorizontalAlignment="Center" Height="239" Margin="302.667,94,25.333,0" VerticalAlignment="Top" Width="37" Grid.Column="2"/>
 
     </Grid>
 </Window>

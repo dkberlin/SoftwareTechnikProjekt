@@ -28,10 +28,10 @@ namespace SoftwareTechnikProjekt
 
         internal void SetupEvents()
         {
-            ModuleController.Instance.OnModuleAddedToFinished += OnModuleAddedToFinished;
+            ModuleController.Instance.OnFinishedModulesChange += OnFinishedModulesChange;
         }
 
-        private void OnModuleAddedToFinished(object selectedModule)
+        private void OnFinishedModulesChange(object selectedModule, bool moduleAddedToList)
         {
             //update progress bar
             var moduleCount = ModuleController.Instance.GetAllModules().Count;
@@ -39,6 +39,24 @@ namespace SoftwareTechnikProjekt
             var finishedModulesAmount = MainWindow.AppWindow.finishedModules.Items.Count;
 
             MainWindow.AppWindow.CompletedProgressBar.Value = finishedModulesAmount * relativeModuleAmount;
+
+            var moduleData = ModuleController.Instance.GetCollegeModuleByTitle(selectedModule.ToString());
+
+            if (moduleAddedToList)
+            {
+                var popUp = new GradePopUp();
+                popUp.SetupAndShow(moduleData);
+            }
+            else
+            {
+                MainWindow.AppWindow.UpdateGradeForModule(moduleData, 0, false);
+            }
+        }
+
+        internal void UpdateModuleGrade(CollegeModule currentModule, double chosenGrade)
+        {
+            currentModule.Grade = chosenGrade;
+            MainWindow.AppWindow.UpdateGradeForModule(currentModule, chosenGrade, true);
         }
     }
 }

@@ -14,8 +14,8 @@ namespace SoftwareTechnikProjekt
         private static ModuleController _instance;
         private static readonly object _padLock = new object();
 
-        public event ModuleAddedToFinished OnModuleAddedToFinished;
-        public delegate void ModuleAddedToFinished(object selectedModule);
+        public event ModuleAddedToFinished OnFinishedModulesChange;
+        public delegate void ModuleAddedToFinished(object selectedModule, bool addedToList);
 
         public ModuleController()
         {
@@ -56,7 +56,6 @@ namespace SoftwareTechnikProjekt
 
         private void OnModuleHasBeenMoved(object selectedModule, ListBox FromList, ListBox ToList)
         {
-            FromList.Items.Remove(selectedModule);
             ToList.Items.Add(selectedModule);
 
             var moduleTitle = selectedModule.ToString();
@@ -64,34 +63,56 @@ namespace SoftwareTechnikProjekt
 
             CheckModuleForDependencies(moduleData, selectedModule, ToList);
 
-            if(ToList == MainWindow.AppWindow.finishedModules)
+            if (ToList == MainWindow.AppWindow.finishedModules)
             {
-                OnModuleAddedToFinished?.Invoke(selectedModule);
+                OnFinishedModulesChange?.Invoke(selectedModule, true);
             }
+            else if (FromList == MainWindow.AppWindow.finishedModules)
+            {
+                OnFinishedModulesChange?.Invoke(selectedModule, false);
+            }
+
+            FromList.Items.Remove(selectedModule);
         }
 
-        private void CheckModuleForDependencies(CollegeModule moduleData, object selectedModuleElement, ListBox ToList)
+        private void CheckModuleForDependencies(CollegeModule movedModuleData, object movedModuleElement, ListBox ToList)
         {
-            if (moduleData.DependandModules == null)
+            if (movedModuleData.DependandModules == null)
             {
                 return;
             }
 
+            var finishedModules = MainWindow.AppWindow.finishedModules.Items;
+
             if (ToList == MainWindow.AppWindow.plannedModules)
             {
-                if (!MainWindow.AppWindow.finishedModules.Items.Contains(selectedModuleElement))
+                if (!finishedModules.Contains(movedModuleElement))
                 {
-                    MainWindow.AppWindow.SetAlertLabelForModule(selectedModuleElement.ToString(), true);
+                    foreach (var finishedModule in finishedModules)
+                    {
+                        var finishedModuleData = GetCollegeModuleByTitle(finishedModule.ToString());
+
+                        foreach (var dependandID in movedModuleData.DependandModules)
+                        {
+                            if (finishedModuleData.ID == dependandID)
+                            {
+                                return;
+                            }
+                        }
+                    }
+
+                    MainWindow.AppWindow.SetAlertLabelForModule(movedModuleElement.ToString(), true);
                 }
             }
+
             else if (ToList == MainWindow.AppWindow.openModules ||
                 ToList == MainWindow.AppWindow.finishedModules)
             {
-                MainWindow.AppWindow.SetAlertLabelForModule(selectedModuleElement.ToString(), false);
+                MainWindow.AppWindow.SetAlertLabelForModule(movedModuleElement.ToString(), false);
             }
         }
 
-        private CollegeModule GetCollegeModuleByTitle(string moduleTitle)
+        public CollegeModule GetCollegeModuleByTitle(string moduleTitle)
         {
             List<CollegeModule> modules = GetAllModules();
             CollegeModule currentModule = modules.First(m => m.Title == moduleTitle);

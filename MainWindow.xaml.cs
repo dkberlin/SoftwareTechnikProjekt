@@ -1,18 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Diagnostics;
 
 namespace SoftwareTechnikProjekt
 {
@@ -38,22 +26,67 @@ namespace SoftwareTechnikProjekt
             ModuleController.Instance.SetupEvents();
             CourseDataHandler.Instance.SetupEvents();
             var modules = ModuleController.Instance.GetAllModules();
+
             foreach(var module in modules)
             {
                 openModules.Items.Add(module.Title);
             }
         }
 
+        #region BUTTONS
         private void AddToPlannedButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedItem = openModules.SelectedItem;
-            OnModuleMoved?.Invoke(selectedItem, openModules, plannedModules);
+
+            if (selectedItem != null)
+            {
+                OnModuleMoved?.Invoke(selectedItem, openModules, plannedModules);
+            }
         }
 
         private void RemoveFromPlanned_Click(object sender, RoutedEventArgs e)
         {
             var selectedItem = plannedModules.SelectedItem;
-            OnModuleMoved?.Invoke(selectedItem, plannedModules, openModules);
+
+            if (selectedItem != null)
+            {
+                OnModuleMoved?.Invoke(selectedItem, plannedModules, openModules);
+            }
+        }
+
+        private void AddToFinishedButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = plannedModules.SelectedItem;
+
+            if (selectedItem != null)
+            {
+                OnModuleMoved?.Invoke(selectedItem, plannedModules, finishedModules);
+            }
+        }
+
+        private void RemoveFromFinished_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = finishedModules.SelectedItem;
+
+            if (selectedItem != null)
+            {
+                OnModuleMoved?.Invoke(selectedItem, finishedModules, plannedModules);
+            }
+        }
+        #endregion
+
+        internal void UpdateGradeForModule(CollegeModule currentModule, double chosenGrade, bool shouldAddGrade)
+        {
+            var listIndexToUpdate = finishedModules.Items.IndexOf(currentModule.Title);
+
+            if (shouldAddGrade)
+            {
+                finishedModulesGrades.Items.Add(chosenGrade);
+            }
+            else
+            {
+                finishedModulesGrades.Items.RemoveAt(listIndexToUpdate);
+            }
         }
 
         internal void SetAlertLabelForModule(string moduleTitle, bool shouldShow)
@@ -76,18 +109,6 @@ namespace SoftwareTechnikProjekt
                 AlertLabel.Content = "";
                 AlertLabel.Visibility = shouldShow ? Visibility.Visible : Visibility.Hidden;
             }
-        }
-
-        private void AddToFinishedButton_Click(object sender, RoutedEventArgs e)
-        {
-            var selectedItem = plannedModules.SelectedItem;
-            OnModuleMoved?.Invoke(selectedItem, plannedModules, finishedModules);
-        }
-
-        private void RemoveFromFinished_Click(object sender, RoutedEventArgs e)
-        {
-            var selectedItem = finishedModules.SelectedItem;
-            OnModuleMoved?.Invoke(selectedItem, finishedModules, plannedModules);
         }
 
         private void QuitAppButton_Click(object sender, RoutedEventArgs e)
