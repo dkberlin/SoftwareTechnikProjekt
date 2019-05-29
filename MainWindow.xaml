@@ -63,7 +63,7 @@
         </Menu>
         <ListBox x:Name="finishedModulesGrades" HorizontalAlignment="Center" Height="239" Margin="302.667,94,25.333,0" VerticalAlignment="Top" Width="37" Grid.Column="2"/>
         <Label x:Name="avgGradeTitleLabel" Content="DURCHSCHNITTSNOTE:" HorizontalAlignment="Center" Height="30" Margin="66,338,109,0" VerticalAlignment="Top" Width="190" HorizontalContentAlignment="Center" Grid.Column="2" FontWeight="Bold"/>
-        <Label x:Name="avgGradeLabel" Content="" HorizontalAlignment="Center" Height="30" Margin="299,338,25,0" VerticalAlignment="Top" Width="41" HorizontalContentAlignment="Center" Grid.Column="2" FontWeight="Bold" Background="White" BorderBrush="#FF555555"/>
+        <Label x:Name="avgGradeLabel" Content="" HorizontalAlignment="Center" Height="30" Margin="303,338,25,0" VerticalAlignment="Top" Width="37" HorizontalContentAlignment="Center" Grid.Column="2" FontWeight="Bold" Background="White" BorderBrush="#FF555555"/>
 
     </Grid>
 </Window>
