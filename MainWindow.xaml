@@ -50,7 +50,7 @@
                 <DropShadowEffect/>
             </ProgressBar.Effect>
         </ProgressBar>
-        <Label x:Name="label" Content="FORTSCHRITT" Grid.Column="1" HorizontalAlignment="Center" Margin="118,420,118,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" FontSize="18"/>
+        <Label x:Name="label" Content="FORTSCHRITT" Grid.Column="1" HorizontalAlignment="Center" Margin="121,420,108,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" FontSize="18" Width="136"/>
         <Menu x:Name="menu" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="1094" Grid.ColumnSpan="3">
             <Menu.Effect>
                 <DropShadowEffect Opacity="0.505" Direction="270"/>
@@ -62,6 +62,8 @@
             </MenuItem>
         </Menu>
         <ListBox x:Name="finishedModulesGrades" HorizontalAlignment="Center" Height="239" Margin="302.667,94,25.333,0" VerticalAlignment="Top" Width="37" Grid.Column="2"/>
+        <Label x:Name="avgGradeTitleLabel" Content="DURCHSCHNITTSNOTE:" HorizontalAlignment="Center" Height="30" Margin="66,338,109,0" VerticalAlignment="Top" Width="190" HorizontalContentAlignment="Center" Grid.Column="2" FontWeight="Bold"/>
+        <Label x:Name="avgGradeLabel" Content="" HorizontalAlignment="Center" Height="30" Margin="299,338,25,0" VerticalAlignment="Top" Width="41" HorizontalContentAlignment="Center" Grid.Column="2" FontWeight="Bold" Background="White" BorderBrush="#FF555555"/>
 
     </Grid>
 </Window>

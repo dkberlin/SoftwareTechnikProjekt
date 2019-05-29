@@ -11,5 +11,6 @@
         public string FurtherInfo { get; set; }
         public int[] DependandModules { get; set; }
         public string ExamType { get; set; }
+        public int Credits { get; set; }
     }
 }

@@ -39,6 +39,7 @@ namespace SoftwareTechnikProjekt
             chosenGrade = double.Parse(GradeDropDown.SelectedItem.ToString());
 
             CourseDataHandler.Instance.UpdateModuleGrade(currentModule, chosenGrade);
+
             this.Close();
         }
 
