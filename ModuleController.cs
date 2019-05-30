@@ -1,11 +1,10 @@
 ﻿using Newtonsoft.Json;
-using System;
+using SoftwareTechnikProjekt.Data;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace SoftwareTechnikProjekt
 {
@@ -36,7 +35,7 @@ namespace SoftwareTechnikProjekt
             }
         }
 
-        internal List<CollegeModule> GetAllModules()
+        internal List<CollegeModule> FetchAllModules()
         {
             var assembly = Assembly.GetExecutingAssembly();
             var resourceName = "SoftwareTechnikProjekt.modules.json";
@@ -118,6 +117,11 @@ namespace SoftwareTechnikProjekt
             CollegeModule currentModule = modules.First(m => m.Title == moduleTitle);
 
             return currentModule;
+        }
+
+        public List<CollegeModule> GetAllModules()
+        {
+            return CourseDataHandler.Instance.CollegeModules;
         }
     }
 }

@@ -71,6 +71,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ApplicationConstants.cs" />
+    <Compile Include="ApplicationDataController.cs" />
     <Compile Include="CollegeModule.cs" />
     <Compile Include="CourseDataHandler.cs" />
     <Compile Include="GradePopUp.cs">

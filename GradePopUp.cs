@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SoftwareTechnikProjekt.Data;
+using System;
 using System.Windows.Forms;
 
 namespace SoftwareTechnikProjekt
@@ -13,16 +7,14 @@ namespace SoftwareTechnikProjekt
     public partial class GradePopUp : Form
     {
         private CollegeModule currentModule;
-        private List<double> grades;
-        private double chosenGrade;
-        public double ChosenGrade { get => chosenGrade; }
+        private double _chosenGrade;
+        public double ChosenGrade { get => _chosenGrade; }
 
         public GradePopUp()
         {
             InitializeComponent();
-            grades = new List<double> { 1.0, 1.3, 1.7, 2.0, 2.3, 2.7, 3.0, 3.3, 3.7, 4.0, 5.0 };
             
-            foreach (var grade in grades)
+            foreach (var grade in ApplicationConstants.Grades)
             {
                 GradeDropDown.Items.Add(grade.ToString());
             }
@@ -36,7 +28,7 @@ namespace SoftwareTechnikProjekt
                 return;
             }
 
-            chosenGrade = double.Parse(GradeDropDown.SelectedItem.ToString());
+            _chosenGrade = double.Parse(GradeDropDown.SelectedItem.ToString());
 
             CourseDataHandler.Instance.UpdateModuleGrade(currentModule, chosenGrade);
 
@@ -51,7 +43,7 @@ namespace SoftwareTechnikProjekt
 
         private void GradePopUp_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (chosenGrade == 0)
+            if (_chosenGrade == 0)
             {
                 var hint = MessageBox.Show("Please submit your grade.");
                 e.Cancel = true;
