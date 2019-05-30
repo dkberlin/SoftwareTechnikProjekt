@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SoftwareTechnikProjekt.Data;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -6,12 +7,14 @@ namespace SoftwareTechnikProjekt
 {
     public partial class MainWindow : Window
     {
-        //private static MainWindow _instance;
         public static MainWindow AppWindow { get; private set; }
         private static readonly object _padLock = new object();
 
         public event ModuleMoved OnModuleMoved;
         public delegate void ModuleMoved(object selectedModule, ListBox FromList, ListBox ToList);
+
+        public event SaveButtonClicked OnSaveButtonClicked;
+        public delegate void SaveButtonClicked(ListBox open, ListBox planned, ListBox finished);
 
         public MainWindow()
         {
@@ -25,11 +28,12 @@ namespace SoftwareTechnikProjekt
             //TODO: check for save
             ModuleController.Instance.SetupEvents();
             CourseDataHandler.Instance.SetupEvents();
-            var modules = ModuleController.Instance.GetAllModules();
+            var modules = ModuleController.Instance.FetchAllModules();
 
             foreach(var module in modules)
             {
                 openModules.Items.Add(module.Title);
+                CourseDataHandler.Instance.AddModule(module);
             }
         }
 
@@ -114,6 +118,14 @@ namespace SoftwareTechnikProjekt
         private void QuitAppButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void SaveDataButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (OnSaveButtonClicked != null)
+            {
+                OnSaveButtonClicked.Invoke(openModules, plannedModules, finishedModules);
+            }
         }
     }
 }
