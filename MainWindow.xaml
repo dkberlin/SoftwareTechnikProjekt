@@ -57,7 +57,7 @@
             </Menu.Effect>
             <MenuItem x:Name="MenuButton" Header="Datei">
                 <MenuItem x:Name ="SaveDataButton" Header="Speichern..." Click="SaveDataButton_Click"/>
-                <MenuItem x:Name="LoadDataButton" Header="Laden..."/>
+                <MenuItem x:Name="LoadDataButton" Header="Laden..." Click="LoadDataButton_Click"/>
                 <MenuItem x:Name="QuitAppButton" Header="Verlassen..." Click="QuitAppButton_Click"/>
             </MenuItem>
         </Menu>

@@ -16,6 +16,9 @@ namespace SoftwareTechnikProjekt
         public event SaveButtonClicked OnSaveButtonClicked;
         public delegate void SaveButtonClicked(ListBox open, ListBox planned, ListBox finished);
 
+        public event LoadButtonClicked OnLoadButtonClicked;
+        public delegate void LoadButtonClicked(ListBox open, ListBox planned, ListBox finished);
+
         public MainWindow()
         {
             AppWindow = this;
@@ -117,6 +120,8 @@ namespace SoftwareTechnikProjekt
 
         private void QuitAppButton_Click(object sender, RoutedEventArgs e)
         {
+            CourseDataHandler.Instance.UnloadAllEvents();
+            ModuleController.Instance.UnloadAllEvents();
             Application.Current.Shutdown();
         }
 
@@ -125,6 +130,14 @@ namespace SoftwareTechnikProjekt
             if (OnSaveButtonClicked != null)
             {
                 OnSaveButtonClicked.Invoke(openModules, plannedModules, finishedModules);
+            }
+        }
+
+        private void LoadDataButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (OnLoadButtonClicked != null)
+            {
+                OnLoadButtonClicked.Invoke(openModules, plannedModules, finishedModules);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SoftwareTechnikProjekt.Data;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -122,6 +123,11 @@ namespace SoftwareTechnikProjekt
         public List<CollegeModule> GetAllModules()
         {
             return CourseDataHandler.Instance.CollegeModules;
+        }
+
+        internal void UnloadAllEvents()
+        {
+            MainWindow.AppWindow.OnModuleMoved -= OnModuleHasBeenMoved;
         }
     }
 }

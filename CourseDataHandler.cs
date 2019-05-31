@@ -39,6 +39,7 @@ namespace SoftwareTechnikProjekt.Data
         {
             ModuleController.Instance.OnFinishedModulesChange += OnFinishedModulesChange;
             MainWindow.AppWindow.OnSaveButtonClicked += PrepareModuleListsForSaving;
+            MainWindow.AppWindow.OnLoadButtonClicked += LoadSavedModuleData;
         }
 
         internal void AddModule(CollegeModule module)
@@ -76,6 +77,16 @@ namespace SoftwareTechnikProjekt.Data
             }
 
             ApplicationDataController.Instance.SaveModulesStatus(openModules, plannedModules, finishedModules);
+        }
+
+        private void LoadSavedModuleData(ListBox open, ListBox planned, ListBox finished)
+        {
+            MainWindow.AppWindow.openModules.Items.Clear();
+            MainWindow.AppWindow.plannedModules.Items.Clear();
+            MainWindow.AppWindow.finishedModules.Items.Clear();
+            MainWindow.AppWindow.finishedModulesGrades.Items.Clear();
+
+            ApplicationDataController.Instance.LoadModulesStatus(open, planned, finished);
         }
 
         private void OnFinishedModulesChange(object selectedModule, bool moduleAddedToList)
@@ -128,7 +139,14 @@ namespace SoftwareTechnikProjekt.Data
             MainWindow.AppWindow.avgGradeLabel.Content = Math.Round(avgGrade, 1);
         }
 
-        private static void ShowGradePopupIfNecessary(CollegeModule selectedModule, bool moduleAddedToList)
+        internal void UnloadAllEvents()
+        {
+            ModuleController.Instance.OnFinishedModulesChange -= OnFinishedModulesChange;
+            MainWindow.AppWindow.OnSaveButtonClicked -= PrepareModuleListsForSaving;
+            MainWindow.AppWindow.OnLoadButtonClicked -= LoadSavedModuleData;
+        }
+
+        private void ShowGradePopupIfNecessary(CollegeModule selectedModule, bool moduleAddedToList)
         {
             if (moduleAddedToList)
             {
@@ -141,7 +159,7 @@ namespace SoftwareTechnikProjekt.Data
             }
         }
 
-        private static void UpdateProgressBar(bool moduleAddedToList)
+        internal void UpdateProgressBar(bool moduleAddedToList)
         {
             var moduleCount = ModuleController.Instance.GetAllModules().Count;
             float relativeModuleAmount = 100f / moduleCount;
