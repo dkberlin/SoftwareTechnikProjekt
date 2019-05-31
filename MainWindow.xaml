@@ -18,9 +18,27 @@
             <ColumnDefinition Width="333*"/>
             <ColumnDefinition Width="333*"/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="openModules" HorizontalAlignment="Center" Height="239" Margin="0,94,0,0" VerticalAlignment="Top" Width="232"/>
-        <ListBox x:Name="finishedModules" HorizontalAlignment="Center" Height="239" Margin="0,94,0,0" VerticalAlignment="Top" Width="232" Grid.Column="2"/>
-        <ListBox x:Name="plannedModules" HorizontalAlignment="Center" Height="100" Margin="0,120,0,0" VerticalAlignment="Top" Width="200" Grid.Column="1"/>
+        <ListBox x:Name="openModules" HorizontalAlignment="Center" Height="239" Margin="0,94,0,0" VerticalAlignment="Top" Width="232" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}"  TextWrapping="Wrap"></TextBlock>
+            </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox x:Name="finishedModules" HorizontalAlignment="Center" Height="239" Margin="0,94,0,0" VerticalAlignment="Top" Width="232" Grid.Column="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" TextWrapping="Wrap"></TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox x:Name="plannedModules" HorizontalAlignment="Center" Height="100" Margin="0,120,0,0" VerticalAlignment="Top" Width="200" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" TextWrapping="Wrap"></TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <Label x:Name="openModulesLabel" Content="OFFENE MODULE" HorizontalAlignment="Center" Height="30" Margin="0,59,0,0" VerticalAlignment="Top" Width="148" HorizontalContentAlignment="Center" FontWeight="Bold"/>
         <Label x:Name="openModulesLabel_Copy" Content="GEPLANTE MODULE" HorizontalAlignment="Center" Height="30" Margin="0,59,0,0" VerticalAlignment="Top" Width="148" HorizontalContentAlignment="Center" Grid.Column="1" FontWeight="Bold"/>
         <Label x:Name="openModulesLabel_Copy1" Content="ABGESCHLOSSENE MODULE" HorizontalAlignment="Center" Height="30" Margin="0,59,0,0" VerticalAlignment="Top" Width="190" HorizontalContentAlignment="Center" Grid.Column="2" FontWeight="Bold"/>
