@@ -28,16 +28,16 @@ namespace SoftwareTechnikProjekt
 
         private void SetupOnStartApplication()
         {
-            //TODO: check for save
-            ModuleController.Instance.SetupEvents();
-            CourseDataHandler.Instance.SetupEvents();
-            var modules = ModuleController.Instance.FetchAllModules();
+            ApplicationManager.Instance.SetupApplication();
+            //ModuleController.Instance.SetupEvents();
+            //CourseDataHandler.Instance.SetupEvents();
+            //var modules = ModuleController.Instance.FetchAllModules();
 
-            foreach(var module in modules)
-            {
-                openModules.Items.Add(module.Title);
-                CourseDataHandler.Instance.AddModule(module);
-            }
+            //foreach(var module in modules)
+            //{
+            //    openModules.Items.Add(module.Title);
+            //    CourseDataHandler.Instance.AddModule(module);
+            //}
         }
 
         #region BUTTONS
@@ -120,8 +120,9 @@ namespace SoftwareTechnikProjekt
 
         private void QuitAppButton_Click(object sender, RoutedEventArgs e)
         {
-            CourseDataHandler.Instance.UnloadAllEvents();
-            ModuleController.Instance.UnloadAllEvents();
+            ApplicationManager.Instance.UnloadAllEvents();
+            //CourseDataHandler.Instance.UnloadAllEvents();
+            //ModuleController.Instance.UnloadAllEvents();
             Application.Current.Shutdown();
         }
 

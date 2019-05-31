@@ -8,36 +8,21 @@ namespace SoftwareTechnikProjekt.Data
 {
     internal class CourseDataHandler
     {
-        private static CourseDataHandler _instance;
-        private static readonly object _padLock = new object();
         private List<CollegeModule> _finishedModules;
         private List<CollegeModule> _collegeModules;
+        private ApplicationDataController _dataController;
+        private ModuleController _moduleController;
         public List<CollegeModule> CollegeModules { get => _collegeModules; }
-
-
+        public ApplicationDataController ApplicationDataController { get => _dataController; set => _dataController = value; }
+        public ModuleController ModuleController { get => _moduleController; set => _moduleController = value; }
 
         public CourseDataHandler()
         {
         }
 
-        public static CourseDataHandler Instance
-        {
-            get
-            {
-                lock (_padLock)
-                {
-                    if (_instance == null)
-                    {
-                        _instance = new CourseDataHandler();
-                    }
-                    return _instance;
-                }
-            }
-        }
-
         internal void SetupEvents()
         {
-            ModuleController.Instance.OnFinishedModulesChange += OnFinishedModulesChange;
+            _moduleController.OnFinishedModulesChange += OnFinishedModulesChange;
             MainWindow.AppWindow.OnSaveButtonClicked += PrepareModuleListsForSaving;
             MainWindow.AppWindow.OnLoadButtonClicked += LoadSavedModuleData;
         }
@@ -60,23 +45,23 @@ namespace SoftwareTechnikProjekt.Data
 
             foreach (var entry in open.Items)
             {
-                var moduleData = ModuleController.Instance.GetCollegeModuleByTitle(entry.ToString());
+                var moduleData = _moduleController.GetCollegeModuleByTitle(entry.ToString());
                 openModules.Add(moduleData);
             }
 
             foreach (var entry in planned.Items)
             {
-                var moduleData = ModuleController.Instance.GetCollegeModuleByTitle(entry.ToString());
+                var moduleData = _moduleController.GetCollegeModuleByTitle(entry.ToString());
                 plannedModules.Add(moduleData);
             }
 
             foreach (var entry in finished.Items)
             {
-                var moduleData = ModuleController.Instance.GetCollegeModuleByTitle(entry.ToString());
+                var moduleData = _moduleController.GetCollegeModuleByTitle(entry.ToString());
                 finishedModules.Add(moduleData);
             }
 
-            ApplicationDataController.Instance.SaveModulesStatus(openModules, plannedModules, finishedModules);
+            _dataController.SaveModulesStatus(openModules, plannedModules, finishedModules);
         }
 
         private void LoadSavedModuleData(ListBox open, ListBox planned, ListBox finished)
@@ -86,12 +71,12 @@ namespace SoftwareTechnikProjekt.Data
             MainWindow.AppWindow.finishedModules.Items.Clear();
             MainWindow.AppWindow.finishedModulesGrades.Items.Clear();
 
-            ApplicationDataController.Instance.LoadModulesStatus(open, planned, finished);
+            _dataController.LoadModulesStatus(open, planned, finished);
         }
 
         private void OnFinishedModulesChange(object selectedModule, bool moduleAddedToList)
         {
-            var moduleData = ModuleController.Instance.GetCollegeModuleByTitle(selectedModule.ToString());
+            var moduleData = _moduleController.GetCollegeModuleByTitle(selectedModule.ToString());
             //update progress bar
             var moduleCount = _collegeModules.Count;
             float relativeModuleAmount = 100f / moduleCount;
@@ -141,7 +126,7 @@ namespace SoftwareTechnikProjekt.Data
 
         internal void UnloadAllEvents()
         {
-            ModuleController.Instance.OnFinishedModulesChange -= OnFinishedModulesChange;
+            _moduleController.OnFinishedModulesChange -= OnFinishedModulesChange;
             MainWindow.AppWindow.OnSaveButtonClicked -= PrepareModuleListsForSaving;
             MainWindow.AppWindow.OnLoadButtonClicked -= LoadSavedModuleData;
         }
@@ -161,7 +146,7 @@ namespace SoftwareTechnikProjekt.Data
 
         internal void UpdateProgressBar(bool moduleAddedToList)
         {
-            var moduleCount = ModuleController.Instance.GetAllModules().Count;
+            var moduleCount = _moduleController.GetAllModules().Count;
             float relativeModuleAmount = 100f / moduleCount;
             var finishedModulesAmount = MainWindow.AppWindow.finishedModules.Items.Count;
 

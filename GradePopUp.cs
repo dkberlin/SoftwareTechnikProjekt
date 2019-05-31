@@ -8,12 +8,14 @@ namespace SoftwareTechnikProjekt
     {
         private CollegeModule currentModule;
         private double _chosenGrade;
+        private CourseDataHandler _dataHandler;
         public double ChosenGrade { get => _chosenGrade; }
 
         public GradePopUp()
         {
             InitializeComponent();
-            
+
+            _dataHandler = ApplicationManager.Instance.DataHandler;
             foreach (var grade in ApplicationConstants.Grades)
             {
                 GradeDropDown.Items.Add(grade.ToString());
@@ -30,7 +32,7 @@ namespace SoftwareTechnikProjekt
 
             _chosenGrade = double.Parse(GradeDropDown.SelectedItem.ToString());
 
-            CourseDataHandler.Instance.UpdateModuleGrade(currentModule, _chosenGrade);
+            _dataHandler.UpdateModuleGrade(currentModule, _chosenGrade);
 
             this.Close();
         }

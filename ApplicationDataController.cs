@@ -9,26 +9,12 @@ namespace SoftwareTechnikProjekt.Data
 {
     class ApplicationDataController
     {
-        private static ApplicationDataController _instance;
-        private static readonly object _padLock = new object();
+        private CourseDataHandler _courseDataHandler;
+
+        public CourseDataHandler CourseDataHandler { get => _courseDataHandler; internal set => _courseDataHandler = value; }
 
         public ApplicationDataController()
         {
-        }
-
-        public static ApplicationDataController Instance
-        {
-            get
-            {
-                lock (_padLock)
-                {
-                    if (_instance == null)
-                    {
-                        _instance = new ApplicationDataController();
-                    }
-                    return _instance;
-                }
-            }
         }
 
         class ModuleListSaveData
@@ -78,7 +64,7 @@ namespace SoftwareTechnikProjekt.Data
             AddLoadedModulesToListbox(finished, finishedModulesData, true);
         }
 
-        private static void AddLoadedModulesToListbox(ListBox containingListBox, IEnumerable<ModuleListSaveData> modulesData, bool shouldAddGrade = false)
+        private void AddLoadedModulesToListbox(ListBox containingListBox, IEnumerable<ModuleListSaveData> modulesData, bool shouldAddGrade = false)
         {
             foreach (var data in modulesData)
             {
@@ -88,8 +74,8 @@ namespace SoftwareTechnikProjekt.Data
 
                     if (shouldAddGrade)
                     {
-                        CourseDataHandler.Instance.UpdateModuleGrade(module, module.Grade);
-                        CourseDataHandler.Instance.UpdateProgressBar(true);
+                        _courseDataHandler.UpdateModuleGrade(module, module.Grade);
+                        _courseDataHandler.UpdateProgressBar(true);
                     }
                 }
             }

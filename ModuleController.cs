@@ -11,29 +11,14 @@ namespace SoftwareTechnikProjekt
 {
     internal class ModuleController
     {
-        private static ModuleController _instance;
-        private static readonly object _padLock = new object();
+        private CourseDataHandler _dataHandler;
 
         public event ModuleAddedToFinished OnFinishedModulesChange;
         public delegate void ModuleAddedToFinished(object selectedModule, bool addedToList);
 
-        public ModuleController()
+        public ModuleController(CourseDataHandler dataHandler)
         {
-        }
-
-        public static ModuleController Instance
-        {
-            get
-            {
-                lock (_padLock)
-                {
-                    if (_instance == null)
-                    {
-                        _instance = new ModuleController();
-                    }
-                    return _instance;
-                }
-            }
+            _dataHandler = dataHandler;
         }
 
         internal List<CollegeModule> FetchAllModules()
@@ -122,7 +107,7 @@ namespace SoftwareTechnikProjekt
 
         public List<CollegeModule> GetAllModules()
         {
-            return CourseDataHandler.Instance.CollegeModules;
+            return _dataHandler.CollegeModules;
         }
 
         internal void UnloadAllEvents()
