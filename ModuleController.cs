@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Windows.Controls;
 
 namespace SoftwareTechnikProjekt
@@ -27,7 +28,7 @@ namespace SoftwareTechnikProjekt
             var resourceName = "SoftwareTechnikProjekt.modules.json";
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-                using (StreamReader reader = new StreamReader(stream))
+                using (StreamReader reader = new StreamReader(stream, Encoding.GetEncoding("iso-8859-1")))
             {
                 string result = reader.ReadToEnd();
                 return JsonConvert.DeserializeObject<List<CollegeModule>>(result);
