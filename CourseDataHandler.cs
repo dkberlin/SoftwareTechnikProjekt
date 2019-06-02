@@ -45,19 +45,22 @@ namespace SoftwareTechnikProjekt.Data
 
             foreach (var entry in open.Items)
             {
-                var moduleData = _moduleController.GetCollegeModuleByTitle(entry.ToString());
+                var entryListBoxItem = entry as ListBoxItem;
+                var moduleData = _moduleController.GetCollegeModuleByTitle(entryListBoxItem.Content.ToString());
                 openModules.Add(moduleData);
             }
 
             foreach (var entry in planned.Items)
             {
-                var moduleData = _moduleController.GetCollegeModuleByTitle(entry.ToString());
+                var entryListBoxItem = entry as ListBoxItem;
+                var moduleData = _moduleController.GetCollegeModuleByTitle(entryListBoxItem.Content.ToString());
                 plannedModules.Add(moduleData);
             }
 
             foreach (var entry in finished.Items)
             {
-                var moduleData = _moduleController.GetCollegeModuleByTitle(entry.ToString());
+                var entryListBoxItem = entry as ListBoxItem;
+                var moduleData = _moduleController.GetCollegeModuleByTitle(entryListBoxItem.Content.ToString());
                 finishedModules.Add(moduleData);
             }
 
@@ -74,9 +77,9 @@ namespace SoftwareTechnikProjekt.Data
             _dataController.LoadModulesStatus(open, planned, finished);
         }
 
-        private void OnFinishedModulesChange(object selectedModule, bool moduleAddedToList)
+        private void OnFinishedModulesChange(ListBoxItem selectedModule, bool moduleAddedToList)
         {
-            var moduleData = _moduleController.GetCollegeModuleByTitle(selectedModule.ToString());
+            var moduleData = _moduleController.GetCollegeModuleByTitle(selectedModule.Content.ToString());
             //update progress bar
             var moduleCount = _collegeModules.Count;
             float relativeModuleAmount = 100f / moduleCount;

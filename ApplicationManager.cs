@@ -32,9 +32,9 @@ namespace SoftwareTechnikProjekt
         internal void SetupApplication()
         {
             CourseDataHandler dataHandler = new CourseDataHandler();
-            ApplicationDataController dataController = new ApplicationDataController();
-            dataHandler.ApplicationDataController = dataController;
             ModuleController moduleController = new ModuleController(dataHandler);
+            ApplicationDataController dataController = new ApplicationDataController(moduleController);
+            dataHandler.ApplicationDataController = dataController;
             dataHandler.ModuleController = moduleController;
             dataController.CourseDataHandler = dataHandler;
 
@@ -45,7 +45,10 @@ namespace SoftwareTechnikProjekt
 
             foreach (var module in modules)
             {
-                MainWindow.AppWindow.openModules.Items.Add(module.Title);
+                var openModulesListbox = MainWindow.AppWindow.openModules;
+                var moduleListBoxItem = moduleController.GenerateListBoxItemByModule(module);
+                moduleController.AddModuleToListBox(moduleListBoxItem, openModulesListbox);
+                //MainWindow.AppWindow.openModules.Items.Add(module.Title);
                 dataHandler.AddModule(module);
             }
 

@@ -40,7 +40,7 @@ namespace SoftwareTechnikProjekt
         internal void SetupAndShow(CollegeModule moduleData)
         {
             currentModule = moduleData;
-            base.Show();
+            base.ShowDialog();
         }
 
         private void GradePopUp_FormClosing(object sender, FormClosingEventArgs e)

@@ -11,7 +11,7 @@ namespace SoftwareTechnikProjekt
         private static readonly object _padLock = new object();
 
         public event ModuleMoved OnModuleMoved;
-        public delegate void ModuleMoved(object selectedModule, ListBox FromList, ListBox ToList);
+        public delegate void ModuleMoved(ListBoxItem selectedModule, ListBox FromList, ListBox ToList);
 
         public event SaveButtonClicked OnSaveButtonClicked;
         public delegate void SaveButtonClicked(ListBox open, ListBox planned, ListBox finished);
@@ -28,6 +28,8 @@ namespace SoftwareTechnikProjekt
 
         private void SetupOnStartApplication()
         {
+            AlertLabel.Visibility = Visibility.Hidden;
+            ModuleInfoLabel.Visibility = Visibility.Hidden;
             ApplicationManager.Instance.SetupApplication();
             //ModuleController.Instance.SetupEvents();
             //CourseDataHandler.Instance.SetupEvents();
@@ -43,7 +45,7 @@ namespace SoftwareTechnikProjekt
         #region BUTTONS
         private void AddToPlannedButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = openModules.SelectedItem;
+            var selectedItem = openModules.SelectedItem as ListBoxItem;
 
             if (selectedItem != null)
             {
@@ -53,7 +55,7 @@ namespace SoftwareTechnikProjekt
 
         private void RemoveFromPlanned_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = plannedModules.SelectedItem;
+            var selectedItem = plannedModules.SelectedItem as ListBoxItem;
 
             if (selectedItem != null)
             {
@@ -63,7 +65,7 @@ namespace SoftwareTechnikProjekt
 
         private void AddToFinishedButton_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = plannedModules.SelectedItem;
+            var selectedItem = plannedModules.SelectedItem as ListBoxItem;
 
             if (selectedItem != null)
             {
@@ -73,7 +75,7 @@ namespace SoftwareTechnikProjekt
 
         private void RemoveFromFinished_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = finishedModules.SelectedItem;
+            var selectedItem = finishedModules.SelectedItem as ListBoxItem;
 
             if (selectedItem != null)
             {
@@ -84,7 +86,20 @@ namespace SoftwareTechnikProjekt
 
         internal void UpdateGradeForModule(CollegeModule currentModule, double chosenGrade, bool shouldAddGrade)
         {
-            var listIndexToUpdate = finishedModules.Items.IndexOf(currentModule.Title);
+            object itemToUpdate = null;
+
+            foreach (var item in finishedModules.Items)
+            {
+                var listBoxItem = item as ListBoxItem;
+
+                if (listBoxItem.Content == currentModule.Title)
+                {
+                    itemToUpdate = item;
+                    break;
+                }
+            }
+
+            var listIndexToUpdate = finishedModules.Items.IndexOf(itemToUpdate);
 
             if (shouldAddGrade)
             {
@@ -96,15 +111,15 @@ namespace SoftwareTechnikProjekt
             }
         }
 
-        internal void SetAlertLabelForModule(string moduleTitle, bool shouldShow)
+        internal void SetAlertLabelForModule(ListBoxItem module, bool shouldShow)
         {
-            var plannedModulesItemIndex = plannedModules.Items.IndexOf(moduleTitle);
-            var finishedModulesItemIndex = finishedModules.Items.IndexOf(moduleTitle);
-            var openModulesItemIndex = openModules.Items.IndexOf(moduleTitle);
+            var plannedModulesItemIndex = plannedModules.Items.IndexOf(module);
+            var finishedModulesItemIndex = finishedModules.Items.IndexOf(module);
+            var openModulesItemIndex = openModules.Items.IndexOf(module);
 
             if (plannedModulesItemIndex >= 0)
             {
-                AlertLabel.Content = $"! {moduleTitle} \nbaut auf einem nicht beendetem Modul auf.";
+                AlertLabel.Content = $"! {module.Content} \nbaut auf einem nicht beendetem Modul auf.";
                 AlertLabel.Visibility = shouldShow ? Visibility.Visible : Visibility.Hidden;
             }
             else if (finishedModulesItemIndex >= 0)

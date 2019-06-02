@@ -10,11 +10,13 @@ namespace SoftwareTechnikProjekt.Data
     class ApplicationDataController
     {
         private CourseDataHandler _courseDataHandler;
+        private ModuleController _moduleController;
 
         public CourseDataHandler CourseDataHandler { get => _courseDataHandler; internal set => _courseDataHandler = value; }
 
-        public ApplicationDataController()
+        public ApplicationDataController(ModuleController moduleController)
         {
+            _moduleController = moduleController;
         }
 
         class ModuleListSaveData
@@ -70,7 +72,9 @@ namespace SoftwareTechnikProjekt.Data
             {
                 foreach (var module in data.modules)
                 {
-                    containingListBox.Items.Add(module.Title);
+                    //containingListBox.Items.Add(module.Title);
+                    var moduleListBoxItem = _moduleController.GenerateListBoxItemByModule(module);
+                    _moduleController.AddModuleToListBox(moduleListBoxItem, containingListBox);
 
                     if (shouldAddGrade)
                     {

@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace SoftwareTechnikProjekt
@@ -15,7 +16,7 @@ namespace SoftwareTechnikProjekt
         private CourseDataHandler _dataHandler;
 
         public event ModuleAddedToFinished OnFinishedModulesChange;
-        public delegate void ModuleAddedToFinished(object selectedModule, bool addedToList);
+        public delegate void ModuleAddedToFinished(ListBoxItem selectedModule, bool addedToList);
 
         public ModuleController(CourseDataHandler dataHandler)
         {
@@ -40,15 +41,9 @@ namespace SoftwareTechnikProjekt
             MainWindow.AppWindow.OnModuleMoved += OnModuleHasBeenMoved;
         }
 
-        private void OnModuleHasBeenMoved(object selectedModule, ListBox FromList, ListBox ToList)
+        private void OnModuleHasBeenMoved(ListBoxItem selectedModule, ListBox FromList, ListBox ToList)
         {
-            ToList.Items.Add(selectedModule);
-
-            var moduleTitle = selectedModule.ToString();
-            var moduleData = GetCollegeModuleByTitle(moduleTitle);
-
-            CheckModuleForDependencies(moduleData, selectedModule, ToList);
-
+            //ToList.Items.Add(selectedModule);
             if (ToList == MainWindow.AppWindow.finishedModules)
             {
                 OnFinishedModulesChange?.Invoke(selectedModule, true);
@@ -59,9 +54,42 @@ namespace SoftwareTechnikProjekt
             }
 
             FromList.Items.Remove(selectedModule);
+            AddModuleToListBox(selectedModule, ToList);
+
+            var moduleTitle = selectedModule.Content.ToString();
+            var moduleData = GetCollegeModuleByTitle(moduleTitle);
+
+            CheckModuleForDependencies(moduleData, selectedModule, ToList);
         }
 
-        private void CheckModuleForDependencies(CollegeModule movedModuleData, object movedModuleElement, ListBox ToList)
+        internal void AddModuleToListBox(ListBoxItem module, ListBox listBox)
+        {
+            if (listBox == MainWindow.AppWindow.openModules)
+            {
+                module.Selected += OnModuleSelected;
+                MainWindow.AppWindow.openModules.Items.Add(module);
+            }
+            else if (listBox == MainWindow.AppWindow.plannedModules)
+            {
+                MainWindow.AppWindow.plannedModules.Items.Add(module);
+            }
+            else
+            {
+                MainWindow.AppWindow.finishedModules.Items.Add(module);
+            }
+        }
+
+        private void OnModuleSelected(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = e.Source as ListBoxItem;
+
+            var itemModuleInfo = GetCollegeModuleByTitle(selectedItem.Content.ToString());
+
+            MainWindow.AppWindow.ModuleInfoLabel.Visibility = Visibility.Visible;
+            MainWindow.AppWindow.ModuleInfoLabel.Text = itemModuleInfo.FurtherInfo;
+        }
+
+        private void CheckModuleForDependencies(CollegeModule movedModuleData, ListBoxItem movedModuleElement, ListBox ToList)
         {
             if (movedModuleData.DependandModules == null)
             {
@@ -72,11 +100,12 @@ namespace SoftwareTechnikProjekt
 
             if (ToList == MainWindow.AppWindow.plannedModules)
             {
-                if (!finishedModules.Contains(movedModuleElement))
+                if (!finishedModules.Contains(movedModuleElement as object))
                 {
                     foreach (var finishedModule in finishedModules)
                     {
-                        var finishedModuleData = GetCollegeModuleByTitle(finishedModule.ToString());
+                        var moduleListBoxItem = finishedModule as ListBoxItem;
+                        var finishedModuleData = GetCollegeModuleByTitle(moduleListBoxItem.Content.ToString());
 
                         foreach (var dependandID in movedModuleData.DependandModules)
                         {
@@ -87,15 +116,20 @@ namespace SoftwareTechnikProjekt
                         }
                     }
 
-                    MainWindow.AppWindow.SetAlertLabelForModule(movedModuleElement.ToString(), true);
+                    MainWindow.AppWindow.SetAlertLabelForModule(movedModuleElement, true);
                 }
             }
 
             else if (ToList == MainWindow.AppWindow.openModules ||
                 ToList == MainWindow.AppWindow.finishedModules)
             {
-                MainWindow.AppWindow.SetAlertLabelForModule(movedModuleElement.ToString(), false);
+                MainWindow.AppWindow.SetAlertLabelForModule(movedModuleElement, false);
             }
+        }
+
+        internal ListBoxItem GenerateListBoxItemByModule(CollegeModule module)
+        {
+            return new ListBoxItem { Content = module.Title };
         }
 
         public CollegeModule GetCollegeModuleByTitle(string moduleTitle)
