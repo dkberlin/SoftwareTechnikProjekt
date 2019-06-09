@@ -140,6 +140,14 @@ namespace SoftwareTechnikProjekt
             return currentModule;
         }
 
+        public CollegeModule GetCollegeModuleById(int ID)
+        {
+            List<CollegeModule> modules = GetAllModules();
+            CollegeModule currentModule = modules.First(m => m.ID == ID);
+
+            return currentModule;
+        }
+
         public List<CollegeModule> GetAllModules()
         {
             return _dataHandler.CollegeModules;

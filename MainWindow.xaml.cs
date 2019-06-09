@@ -1,5 +1,6 @@
 ﻿using SoftwareTechnikProjekt.Data;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -117,9 +118,25 @@ namespace SoftwareTechnikProjekt
             var finishedModulesItemIndex = finishedModules.Items.IndexOf(module);
             var openModulesItemIndex = openModules.Items.IndexOf(module);
 
+            var moduleData = ApplicationManager.Instance.DataHandler.ModuleController.GetCollegeModuleByTitle(module.Content.ToString());
+            var dependandModules = new List<CollegeModule>();
+
+            foreach (var dep in moduleData.DependandModules)
+            {
+                dependandModules.Add(ApplicationManager.Instance.DataHandler.ModuleController.GetCollegeModuleById(dep));
+            }
+
+            var depModString = "";
+
+            foreach (var mod in dependandModules)
+            {
+                depModString += mod.Title +"\n";
+            }
+
             if (plannedModulesItemIndex >= 0)
             {
-                AlertLabel.Content = $"! {module.Content} \nbaut auf einem nicht beendetem Modul auf.";
+                AlertLabel.Content = $"! {module.Content} \nbaut auf nicht beendeten Modulen auf:\n{depModString}";
+
                 AlertLabel.Visibility = shouldShow ? Visibility.Visible : Visibility.Hidden;
             }
             else if (finishedModulesItemIndex >= 0)
