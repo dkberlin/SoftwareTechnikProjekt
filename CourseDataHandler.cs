@@ -153,10 +153,7 @@ namespace SoftwareTechnikProjekt.Data
             float relativeModuleAmount = 100f / moduleCount;
             var finishedModulesAmount = MainWindow.AppWindow.finishedModules.Items.Count;
 
-            if (!moduleAddedToList)
-            {
-                finishedModulesAmount--;
-            }
+            finishedModulesAmount = moduleAddedToList ? finishedModulesAmount +1 : finishedModulesAmount -1;
 
             MainWindow.AppWindow.CompletedProgressBar.Value = finishedModulesAmount * relativeModuleAmount;
         }
