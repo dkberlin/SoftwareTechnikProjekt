@@ -92,8 +92,9 @@ namespace SoftwareTechnikProjekt
             foreach (var item in finishedModules.Items)
             {
                 var listBoxItem = item as ListBoxItem;
+                var moduleTitle = ApplicationManager.Instance.ModuleController.GetModuleTitleFromListBoxItem(listBoxItem);
 
-                if (listBoxItem.Content == currentModule.Title)
+                if (moduleTitle == currentModule.Title)
                 {
                     itemToUpdate = item;
                     break;

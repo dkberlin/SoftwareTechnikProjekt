@@ -53,29 +53,41 @@ namespace SoftwareTechnikProjekt
                 OnFinishedModulesChange?.Invoke(selectedModule, false);
             }
 
+            var moduleTitle = GetModuleTitleFromListBoxItem(selectedModule);
+            var moduleData = GetCollegeModuleByTitle(moduleTitle);
+
             FromList.Items.Remove(selectedModule);
             AddModuleToListBox(selectedModule, ToList);
-
-            var moduleTitle = selectedModule.Content.ToString();
-            var moduleData = GetCollegeModuleByTitle(moduleTitle);
 
             CheckModuleForDependencies(moduleData, selectedModule, ToList);
         }
 
+        public string GetModuleTitleFromListBoxItem(ListBoxItem selectedModule)
+        {
+            var title = selectedModule.ToString();
+            var split = title.Split(':');
+            return split[1].Substring(1);
+        }
+
         internal void AddModuleToListBox(ListBoxItem module, ListBox listBox)
         {
+            var moduleTitle = GetModuleTitleFromListBoxItem(module);
+            var lbi = new ListBoxItem();
+
+            lbi.Content = new TextBlock { Text = moduleTitle, TextWrapping = TextWrapping.Wrap };
+
             if (listBox == MainWindow.AppWindow.openModules)
             {
                 module.Selected += OnModuleSelected;
-                MainWindow.AppWindow.openModules.Items.Add(module);
+                MainWindow.AppWindow.openModules.Items.Add(lbi);
             }
             else if (listBox == MainWindow.AppWindow.plannedModules)
             {
-                MainWindow.AppWindow.plannedModules.Items.Add(module);
+                MainWindow.AppWindow.plannedModules.Items.Add(lbi);
             }
             else
             {
-                MainWindow.AppWindow.finishedModules.Items.Add(module);
+                MainWindow.AppWindow.finishedModules.Items.Add(lbi);
             }
         }
 

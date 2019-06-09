@@ -9,6 +9,7 @@ namespace SoftwareTechnikProjekt
         private CourseDataHandler _dataHandler;
         private ModuleController _moduleController;
         public CourseDataHandler DataHandler { get => _dataHandler; }
+        public ModuleController ModuleController { get => _moduleController; }
 
         public ApplicationManager()
         {

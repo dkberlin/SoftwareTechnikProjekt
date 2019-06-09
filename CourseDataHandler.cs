@@ -79,7 +79,8 @@ namespace SoftwareTechnikProjekt.Data
 
         private void OnFinishedModulesChange(ListBoxItem selectedModule, bool moduleAddedToList)
         {
-            var moduleData = _moduleController.GetCollegeModuleByTitle(selectedModule.Content.ToString());
+            var moduleTitle = _moduleController.GetModuleTitleFromListBoxItem(selectedModule);
+            var moduleData = _moduleController.GetCollegeModuleByTitle(moduleTitle);
             //update progress bar
             var moduleCount = _collegeModules.Count;
             float relativeModuleAmount = 100f / moduleCount;
