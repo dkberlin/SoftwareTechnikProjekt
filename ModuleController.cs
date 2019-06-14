@@ -53,13 +53,14 @@ namespace SoftwareTechnikProjekt
                 OnFinishedModulesChange?.Invoke(selectedModule, false);
             }
 
-            var moduleTitle = GetModuleTitleFromListBoxItem(selectedModule);
-            var moduleData = GetCollegeModuleByTitle(moduleTitle);
+            var moduleData = GetCollegeModuleByListBoxItem(selectedModule);
 
             FromList.Items.Remove(selectedModule);
             AddModuleToListBox(selectedModule, ToList);
 
             CheckModuleForDependencies(moduleData, selectedModule, ToList);
+
+            OnModuleUnselected();
         }
 
         public string GetModuleTitleFromListBoxItem(ListBoxItem selectedModule)
@@ -78,7 +79,7 @@ namespace SoftwareTechnikProjekt
 
             if (listBox == MainWindow.AppWindow.openModules)
             {
-                module.Selected += OnModuleSelected;
+                lbi.Selected += OnModuleSelected;
                 MainWindow.AppWindow.openModules.Items.Add(lbi);
             }
             else if (listBox == MainWindow.AppWindow.plannedModules)
@@ -91,11 +92,17 @@ namespace SoftwareTechnikProjekt
             }
         }
 
+        private void OnModuleUnselected()
+        {
+            MainWindow.AppWindow.ModuleInfoLabel.Visibility = Visibility.Hidden;
+            MainWindow.AppWindow.ModuleInfoLabel.Text = String.Empty;
+        }
+
         private void OnModuleSelected(object sender, RoutedEventArgs e)
         {
             var selectedItem = e.Source as ListBoxItem;
 
-            var itemModuleInfo = GetCollegeModuleByTitle(selectedItem.Content.ToString());
+            var itemModuleInfo = GetCollegeModuleByListBoxItem(selectedItem);
 
             MainWindow.AppWindow.ModuleInfoLabel.Visibility = Visibility.Visible;
             MainWindow.AppWindow.ModuleInfoLabel.Text = itemModuleInfo.FurtherInfo;
@@ -117,7 +124,7 @@ namespace SoftwareTechnikProjekt
                     foreach (var finishedModule in finishedModules)
                     {
                         var moduleListBoxItem = finishedModule as ListBoxItem;
-                        var finishedModuleData = GetCollegeModuleByTitle(moduleListBoxItem.Content.ToString());
+                        var finishedModuleData = GetCollegeModuleByListBoxItem(moduleListBoxItem);
 
                         foreach (var dependandID in movedModuleData.DependandModules)
                         {
@@ -144,8 +151,10 @@ namespace SoftwareTechnikProjekt
             return new ListBoxItem { Content = module.Title };
         }
 
-        public CollegeModule GetCollegeModuleByTitle(string moduleTitle)
+        public CollegeModule GetCollegeModuleByListBoxItem(ListBoxItem module)
         {
+            var moduleTitle = GetModuleTitleFromListBoxItem(module);
+
             List<CollegeModule> modules = GetAllModules();
             CollegeModule currentModule = modules.First(m => m.Title == moduleTitle);
 

@@ -1,6 +1,7 @@
 ﻿using SoftwareTechnikProjekt.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -115,11 +116,19 @@ namespace SoftwareTechnikProjekt
 
         internal void SetAlertLabelForModule(ListBoxItem module, bool shouldShow)
         {
-            var plannedModulesItemIndex = plannedModules.Items.IndexOf(module);
-            var finishedModulesItemIndex = finishedModules.Items.IndexOf(module);
-            var openModulesItemIndex = openModules.Items.IndexOf(module);
+            List<object> plannedList = plannedModules.Items.OfType<object>().ToList();
+            List<object> openList = openModules.Items.OfType<object>().ToList();
+            List<object> finishedList = finishedModules.Items.OfType<object>().ToList();
 
-            var moduleData = ApplicationManager.Instance.DataHandler.ModuleController.GetCollegeModuleByTitle(module.Content.ToString());
+            //var plannedModulesItemIndex = plannedModules.Items.IndexOf(module.ToString());
+            //var finishedModulesItemIndex = finishedModules.Items.IndexOf(module);
+            //var openModulesItemIndex = openModules.Items.IndexOf(module);
+
+            bool inPlanned = plannedList.Any(m => m.ToString() == module.ToString());
+            bool inOpen = openList.Any(m => m.ToString() == module.ToString());
+            bool inFinished = finishedList.Any(m => m.ToString() == module.ToString());
+
+            var moduleData = ApplicationManager.Instance.DataHandler.ModuleController.GetCollegeModuleByListBoxItem(module);
             var dependandModules = new List<CollegeModule>();
 
             foreach (var dep in moduleData.DependandModules)
@@ -134,17 +143,19 @@ namespace SoftwareTechnikProjekt
                 depModString += mod.Title +"\n";
             }
 
-            if (plannedModulesItemIndex >= 0)
+            if (inPlanned)
             {
-                AlertLabel.Content = $"! {module.Content} \nbaut auf nicht beendeten Modulen auf:\n{depModString}";
+                var moduleTitle = ApplicationManager.Instance.DataHandler.ModuleController.GetModuleTitleFromListBoxItem(module);
+
+                AlertLabel.Content = $"! {moduleTitle} \nbaut auf nicht beendeten Modulen auf:\n{depModString}";
 
                 AlertLabel.Visibility = shouldShow ? Visibility.Visible : Visibility.Hidden;
             }
-            else if (finishedModulesItemIndex >= 0)
+            else if (inFinished)
             {
                 AlertLabel.Visibility = shouldShow ? Visibility.Visible : Visibility.Hidden;
             }
-            else if (openModulesItemIndex >= 0)
+            else if (inOpen)
             {
                 AlertLabel.Content = "";
                 AlertLabel.Visibility = shouldShow ? Visibility.Visible : Visibility.Hidden;

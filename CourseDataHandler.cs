@@ -46,21 +46,21 @@ namespace SoftwareTechnikProjekt.Data
             foreach (var entry in open.Items)
             {
                 var entryListBoxItem = entry as ListBoxItem;
-                var moduleData = _moduleController.GetCollegeModuleByTitle(entryListBoxItem.Content.ToString());
+                var moduleData = _moduleController.GetCollegeModuleByListBoxItem(entryListBoxItem);
                 openModules.Add(moduleData);
             }
 
             foreach (var entry in planned.Items)
             {
                 var entryListBoxItem = entry as ListBoxItem;
-                var moduleData = _moduleController.GetCollegeModuleByTitle(entryListBoxItem.Content.ToString());
+                var moduleData = _moduleController.GetCollegeModuleByListBoxItem(entryListBoxItem);
                 plannedModules.Add(moduleData);
             }
 
             foreach (var entry in finished.Items)
             {
                 var entryListBoxItem = entry as ListBoxItem;
-                var moduleData = _moduleController.GetCollegeModuleByTitle(entryListBoxItem.Content.ToString());
+                var moduleData = _moduleController.GetCollegeModuleByListBoxItem(entryListBoxItem);
                 finishedModules.Add(moduleData);
             }
 
@@ -79,8 +79,7 @@ namespace SoftwareTechnikProjekt.Data
 
         private void OnFinishedModulesChange(ListBoxItem selectedModule, bool moduleAddedToList)
         {
-            var moduleTitle = _moduleController.GetModuleTitleFromListBoxItem(selectedModule);
-            var moduleData = _moduleController.GetCollegeModuleByTitle(moduleTitle);
+            var moduleData = _moduleController.GetCollegeModuleByListBoxItem(selectedModule);
             //update progress bar
             var moduleCount = _collegeModules.Count;
             float relativeModuleAmount = 100f / moduleCount;
